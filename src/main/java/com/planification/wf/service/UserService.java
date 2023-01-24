@@ -12,6 +12,8 @@ import com.planification.wf.security.JwtService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +45,6 @@ public class UserService  {
                     .role(request.getRole())
                     .build();
 
-            System.out.println(user.getRole());
             repository.save(user);
             var jwtToken = jwtService.generateToken(user);
             return AuthenticationResponseDTO.builder()
@@ -71,7 +72,11 @@ public class UserService  {
 
 
     public List<User> getAll(){
+
+
+
         return userRepository.findAll();
+
     }
 
 

@@ -1,21 +1,18 @@
-package com.planification.wf.entity;
+package com.planification.wf.DTO;
 
-import jakarta.persistence.*;
+import com.planification.wf.entity.User;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Data
-@Entity
-@Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class Events {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@NoArgsConstructor
+public class EventsDTO implements Serializable {
     private Long id;
     private String title;
     private LocalDate start;
@@ -23,6 +20,5 @@ public class Events {
     private LocalDate date;
     private boolean allDay;
     private String url;
-    @ManyToOne
-    private User user;
+    private Long userId;
 }
