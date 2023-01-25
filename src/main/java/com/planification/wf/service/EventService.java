@@ -16,6 +16,7 @@ import jdk.jfr.Event;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,26 +32,23 @@ public class EventService {
 
     public List<EventsDTO> getEvents(){
         List<Events> events = repository.getEventsByUserId(Authentication.getCurrentUser().getId());
+
         return eventMapper.toListEventsDto(events);
     }
     public EventsDTO updateEvent(EventsDTO eventdto){
         Optional<Events> eventInDataBase = repository.findById(eventdto.getId());
 
+        System.out.println(eventdto.getEnd());
+        System.out.println(eventdto.getStart());
         if(eventInDataBase.isPresent()){
-            Optional<User> user = userRepository.findById(eventdto.getUserId());
-
-            if(user.isEmpty()) {
-                throw new UserNotFoundException();
-            }
             var eventValue = Events.builder().
                     id(eventdto.getId()).
                     end(eventdto.getEnd()).
                     start(eventdto.getStart()).
                     title(eventdto.getTitle()).
-                    date(eventdto.getDate()).
                     allDay(eventdto.isAllDay()).
-                    url(eventdto.getUrl()).
-                    user(user.get()).build();
+                    url(eventdto.getUrl())
+                    .build();
             return eventMapper.toEventsDto(repository.save(eventValue));
 
         }else{
@@ -60,15 +58,17 @@ public class EventService {
     }
     public EventsDTO saveEvent(EventsDTO eventdto){
 
+        System.out.println(eventdto.getStart());
+
 
        var eventValue = Events.builder().
-                end(eventdto.getEnd()).
-                start(eventdto.getStart()).
-                title(eventdto.getTitle()).
-                date(eventdto.getDate()).
-                allDay(eventdto.isAllDay()).
-                url(eventdto.getUrl()).
-                user(Authentication.getCurrentUser()).build();
+               end(eventdto.getEnd()).
+               start(eventdto.getStart()).
+               title(eventdto.getTitle()).
+               allDay(eventdto.isAllDay()).
+               url(eventdto.getUrl()).
+               user(Authentication.getCurrentUser())
+               .build();
 
         return eventMapper.toEventsDto(repository.save(eventValue));
     }

@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -18,9 +19,8 @@ public class Events {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    private LocalDate start;
-    private  LocalDate end;
-    private LocalDate date;
+    private String start;
+    private  String end;
     private boolean allDay;
     private String url;
     @ManyToOne

@@ -2,15 +2,15 @@ package com.planification.wf.controlleur;
 
 import com.planification.wf.DTO.EventsDTO;
 import com.planification.wf.entity.Events;
-import com.planification.wf.repository.EventRepository;
+
 import com.planification.wf.service.EventService;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.parser.Entity;
+
 import java.util.List;
 
 @RestController

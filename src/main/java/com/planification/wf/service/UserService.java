@@ -49,7 +49,6 @@ public class UserService  {
             var jwtToken = jwtService.generateToken(user);
             return AuthenticationResponseDTO.builder()
                     .token(jwtToken)
-                    .email(user.getEmail())
                     .build();
         }
     }
@@ -64,9 +63,7 @@ public class UserService  {
         var user = repository.findByEmail(request.getEmail()).orElseThrow(EmailNotFoundException::new);
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponseDTO.builder()
-                .email(user.getEmail())
                 .token(jwtToken)
-                .role(user.getRole().toString())
                 .build();
     }
 

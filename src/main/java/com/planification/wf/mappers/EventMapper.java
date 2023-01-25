@@ -12,7 +12,12 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface EventMapper {
 
-    @Mapping(target = "userId" , source = "user.id")
+
+/*
+    @Mapping(target = "start", dateFormat = "yyyy-MM-dd'T'HH:mm:ss")
+    @Mapping(target = "end", dateFormat = "yyyy-MM-dd'T'HH:mm:ss")
+    */
+
     EventsDTO toEventsDto(Events events);
 
     List<EventsDTO> toListEventsDto(List <Events> eventsList);

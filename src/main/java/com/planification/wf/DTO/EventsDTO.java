@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -15,10 +16,9 @@ import java.time.LocalDate;
 public class EventsDTO implements Serializable {
     private Long id;
     private String title;
-    private LocalDate start;
-    private  LocalDate end;
-    private LocalDate date;
+    private String start;
+    private  String end;
     private boolean allDay;
     private String url;
-    private Long userId;
+
 }
