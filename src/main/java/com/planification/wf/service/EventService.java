@@ -38,8 +38,7 @@ public class EventService {
     public EventsDTO updateEvent(EventsDTO eventdto){
         Optional<Events> eventInDataBase = repository.findById(eventdto.getId());
 
-        System.out.println(eventdto.getEnd());
-        System.out.println(eventdto.getStart());
+
         if(eventInDataBase.isPresent()){
             var eventValue = Events.builder().
                     id(eventdto.getId()).
@@ -57,9 +56,6 @@ public class EventService {
 
     }
     public EventsDTO saveEvent(EventsDTO eventdto){
-
-        System.out.println(eventdto.getStart());
-
 
        var eventValue = Events.builder().
                end(eventdto.getEnd()).

@@ -3,12 +3,18 @@ package com.planification.wf.interceptors;
 import com.planification.wf.DTO.ApiErrorDTO;
 import com.planification.wf.exceptions.*;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.CredentialsExpiredException;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -92,6 +98,25 @@ public class MyExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, error, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 
     }
+
+    @ExceptionHandler({ AuthenticationException.class })
+    public ResponseEntity<ApiErrorDTO> handleAuthenticationException(Exception ex) {
+
+        ApiErrorDTO error = new ApiErrorDTO();
+        error.setErrorCode(401);
+        error.setMessage(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+    }
+
+    @ExceptionHandler({ MalformedJwtException.class })
+    public ResponseEntity<ApiErrorDTO> malFormedException(MalformedJwtException ex) {
+
+        ApiErrorDTO error = new ApiErrorDTO();
+        error.setErrorCode(466);
+        error.setMessage(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+    }
+
 
 
 
