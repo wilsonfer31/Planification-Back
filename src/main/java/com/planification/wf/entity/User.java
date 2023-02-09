@@ -24,14 +24,10 @@ public class User implements Serializable, UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
     private String username;
-
     private String email;
     private String password;
     @Enumerated(EnumType.STRING)
     private Role_Enum role;
-
-
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -6,14 +6,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.List;
 
-@Data
-@Entity
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+
+@Data @Entity @Builder @NoArgsConstructor @AllArgsConstructor
 public class Events {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,4 +21,19 @@ public class Events {
     private String url;
     @ManyToOne
     private User user;
+
+
+    @OneToMany(mappedBy ="events", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Tasks> tasksList;
+
+    public void addTask(Tasks task) {
+        this.tasksList.add(task);
+        task.setEvents(this);
+    }
+
+    public void removeTask(Tasks task) {
+        this.tasksList.remove(task);
+        task.setEvents(null);
+    }
+
 }

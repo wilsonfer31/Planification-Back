@@ -23,27 +23,26 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class MyExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(value= {RuntimeException.class})
-    protected ResponseEntity<?> handleConflict(Exception ex, WebRequest request){
+    @ExceptionHandler(value = {RuntimeException.class})
+    protected ResponseEntity<?> handleConflict(Exception ex, WebRequest request) {
 
         ApiErrorDTO error = new ApiErrorDTO();
         error.setErrorCode(500);
         error.setMessage(ex.getMessage());
-        error.setPath(((ServletWebRequest)request).getRequest().getRequestURI());
+        error.setPath(((ServletWebRequest) request).getRequest().getRequestURI());
 
         return handleExceptionInternal(ex, error, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
 
     }
 
 
-
-    @ExceptionHandler(value= {EmailNotFoundException.class})
-    protected ResponseEntity<?> emailException(Exception ex, WebRequest request){
+    @ExceptionHandler(value = {EmailNotFoundException.class})
+    protected ResponseEntity<?> emailException(Exception ex, WebRequest request) {
 
         ApiErrorDTO error = new ApiErrorDTO();
         error.setErrorCode(401);
         error.setMessage(ex.getMessage());
-        error.setPath(((ServletWebRequest)request).getRequest().getRequestURI());
+        error.setPath(((ServletWebRequest) request).getRequest().getRequestURI());
 
         return handleExceptionInternal(ex, error, new HttpHeaders(),
                 HttpStatus.UNAUTHORIZED, request);
@@ -51,55 +50,56 @@ public class MyExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
 
-    @ExceptionHandler(value= {EmailAlreadyExistsException.class})
-    protected ResponseEntity<?> emailAlreadyExists(Exception ex, WebRequest request){
+    @ExceptionHandler(value = {EmailAlreadyExistsException.class})
+    protected ResponseEntity<?> emailAlreadyExists(Exception ex, WebRequest request) {
 
         ApiErrorDTO error = new ApiErrorDTO();
         error.setErrorCode(401);
         error.setMessage(ex.getMessage());
-        error.setPath(((ServletWebRequest)request).getRequest().getRequestURI());
+        error.setPath(((ServletWebRequest) request).getRequest().getRequestURI());
 
         return handleExceptionInternal(ex, error, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 
     }
 
-    @ExceptionHandler(value= {EventAlreadyExists.class})
-    protected ResponseEntity<?> eventAlreadyExistsException(Exception ex, WebRequest request){
+    @ExceptionHandler(value = {EventAlreadyExists.class})
+    protected ResponseEntity<?> eventAlreadyExistsException(Exception ex, WebRequest request) {
 
         ApiErrorDTO error = new ApiErrorDTO();
         error.setErrorCode(401);
         error.setMessage(ex.getMessage());
-        error.setPath(((ServletWebRequest)request).getRequest().getRequestURI());
+        error.setPath(((ServletWebRequest) request).getRequest().getRequestURI());
 
         return handleExceptionInternal(ex, error, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 
     }
 
 
-    @ExceptionHandler(value= {EventNotFound.class})
-    protected ResponseEntity<?> EventNotFoundException(Exception ex, WebRequest request){
+    @ExceptionHandler(value = {EventNotFound.class})
+    protected ResponseEntity<?> EventNotFoundException(Exception ex, WebRequest request) {
 
         ApiErrorDTO error = new ApiErrorDTO();
         error.setErrorCode(401);
         error.setMessage(ex.getMessage());
-        error.setPath(((ServletWebRequest)request).getRequest().getRequestURI());
-
-        return handleExceptionInternal(ex, error, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
-
-    }
-    @ExceptionHandler(value= {UserNotFoundException.class})
-    protected ResponseEntity<?> UserNotFoundException(Exception ex, WebRequest request){
-
-        ApiErrorDTO error = new ApiErrorDTO();
-        error.setErrorCode(401);
-        error.setMessage(ex.getMessage());
-        error.setPath(((ServletWebRequest)request).getRequest().getRequestURI());
+        error.setPath(((ServletWebRequest) request).getRequest().getRequestURI());
 
         return handleExceptionInternal(ex, error, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 
     }
 
-    @ExceptionHandler({ AuthenticationException.class })
+    @ExceptionHandler(value = {UserNotFoundException.class})
+    protected ResponseEntity<?> UserNotFoundException(Exception ex, WebRequest request) {
+
+        ApiErrorDTO error = new ApiErrorDTO();
+        error.setErrorCode(401);
+        error.setMessage(ex.getMessage());
+        error.setPath(((ServletWebRequest) request).getRequest().getRequestURI());
+
+        return handleExceptionInternal(ex, error, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+
+    }
+
+    @ExceptionHandler({AuthenticationException.class})
     public ResponseEntity<ApiErrorDTO> handleAuthenticationException(Exception ex) {
 
         ApiErrorDTO error = new ApiErrorDTO();
@@ -108,7 +108,7 @@ public class MyExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
 
-    @ExceptionHandler({ MalformedJwtException.class })
+    @ExceptionHandler({MalformedJwtException.class})
     public ResponseEntity<ApiErrorDTO> malFormedException(MalformedJwtException ex) {
 
         ApiErrorDTO error = new ApiErrorDTO();
@@ -116,8 +116,6 @@ public class MyExceptionHandler extends ResponseEntityExceptionHandler {
         error.setMessage(ex.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
-
-
 
 
 }

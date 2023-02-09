@@ -1,5 +1,6 @@
 package com.planification.wf.controlleur;
 
+import com.planification.wf.DTO.EventsAndTasksDTO;
 import com.planification.wf.DTO.EventsDTO;
 import com.planification.wf.entity.Events;
 
@@ -22,12 +23,18 @@ public class EventController {
 
     @GetMapping()
     public ResponseEntity<List<EventsDTO>> getAllEvents(){
+        return ResponseEntity.ok(service.getEventsByActualUser());
+    }
 
-        return ResponseEntity.ok(service.getEvents());
+    @GetMapping("/{id}")
+    public ResponseEntity<EventsAndTasksDTO> getAllEvents(@PathVariable Long id){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(service.getEventsById(id));
     }
 
     @PostMapping()
-    public ResponseEntity<EventsDTO> save(@RequestBody EventsDTO eventDto){
+    public ResponseEntity<EventsAndTasksDTO> save(@RequestBody EventsAndTasksDTO eventDto){
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(service.saveEvent(eventDto));
@@ -35,7 +42,7 @@ public class EventController {
 
 
     @PutMapping()
-    public ResponseEntity<EventsDTO> update(@RequestBody EventsDTO eventDto){
+    public ResponseEntity<EventsAndTasksDTO> update(@RequestBody EventsAndTasksDTO eventDto){
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(service.updateEvent(eventDto));
