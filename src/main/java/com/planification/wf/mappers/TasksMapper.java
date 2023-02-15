@@ -10,9 +10,9 @@ import java.util.List;
 public interface TasksMapper {
 
 
-
     @Mapping(target = "events.id", source = "eventsId")
     Tasks toTasks(TasksDto tasksDto);
+
 
     @Mapping(source = "validated", target ="isValidated" )
     @Mapping(source = "events.id", target = "eventsId")
