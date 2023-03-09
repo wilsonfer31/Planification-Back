@@ -1,7 +1,6 @@
 package com.planification.wf.controlleur;
 
 
-import com.planification.wf.DTO.EventsDTO;
 import com.planification.wf.DTO.TasksDto;
 import com.planification.wf.service.TaskService;
 import lombok.RequiredArgsConstructor;

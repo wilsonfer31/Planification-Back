@@ -6,9 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.util.Date;
-
 
 @Data @Builder @Entity @NoArgsConstructor @AllArgsConstructor
 public class Tasks {
@@ -18,7 +15,7 @@ public class Tasks {
     @ManyToOne(optional = false)
     @JoinColumn(name="events_id")
     private Events events;
-    private boolean isValidated = false;
+    private boolean validated;
     private String created;
     private String eventName;
 

@@ -2,8 +2,7 @@ package com.planification.wf.security;
 
 
 
-import com.planification.wf.exceptions.EventNotFound;
-import com.planification.wf.exceptions.UserNotFoundException;
+
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

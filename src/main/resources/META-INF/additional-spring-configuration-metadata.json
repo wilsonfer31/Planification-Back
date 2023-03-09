@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "front.url.value",
+      "type": "java.lang.String",
+      "description": "Description for front.url.value."
+  }
+] }

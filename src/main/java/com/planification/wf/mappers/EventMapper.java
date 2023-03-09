@@ -14,6 +14,7 @@ import java.util.List;
 @Mapper(componentModel = "spring", uses = {TasksMapper.class})
 public interface EventMapper {
 
+
     @Mapping(source = "tasks", target = "tasksList")
     Events toEvents(EventsAndTasksDTO eventsDto);
 

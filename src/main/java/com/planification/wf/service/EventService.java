@@ -10,14 +10,10 @@ import com.planification.wf.exceptions.EventNotFound;
 import com.planification.wf.mappers.EventMapper;
 import com.planification.wf.mappers.TasksMapper;
 import com.planification.wf.repository.EventRepository;
-import com.planification.wf.repository.UserRepository;
 import jakarta.transaction.Transactional;
-
 import lombok.AllArgsConstructor;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -72,6 +68,7 @@ public class EventService {
         eventValue.setTasksList(new ArrayList<>());
 
         for (TasksDto taskDto : eventDto.getTasks()) {
+
             Tasks task = tasksMapper.toTasks(taskDto);
             task.setEvents(eventValue);
             task.setCreated(eventValue.getStart());

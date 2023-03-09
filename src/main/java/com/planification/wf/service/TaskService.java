@@ -7,12 +7,11 @@ import com.planification.wf.mappers.TasksMapper;
 import com.planification.wf.repository.TaskRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,19 +22,23 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private final TasksMapper tasksMapper;
 
-    public List<TasksDto> getAllTasksNotValidated(){
-        List<Tasks> tasks = this.taskRepository.getTasksNotValidated().stream().filter((task) -> LocalDate.parse(task.getEvents().getEnd()).isBefore(LocalDate.now()))
-                .filter((task) -> task.getEvents().getUser().getId() == Authentication.getCurrentUser().getId()).collect(Collectors.toList());
+    public List<TasksDto> getAllTasksNotValidated() {
+
+        List<Tasks> tasks = this.taskRepository.getTasksNotValidated().stream()
+                .filter((task) -> LocalDate.parse(task.getEvents().getEnd()).isBefore(LocalDate.now()))
+                .filter((task) -> Objects.equals(task.getEvents().getUser().getId(), Authentication.getCurrentUser().getId()))
+                .collect(Collectors.toList());
         return tasksMapper.tasksListToTasksListDto(tasks);
     }
 
-    public List<TasksDto> getAllTasksValidated(){
-        return tasksMapper.tasksListToTasksListDto(this.taskRepository.getTasksValidated());
+    public List<TasksDto> getAllTasksValidated() {
+        return tasksMapper.tasksListToTasksListDto(this.taskRepository.getTasksValidated().stream().filter((task) -> Objects.equals(task.getEvents().getUser().getId(), Authentication.getCurrentUser().getId()))
+                .collect(Collectors.toList()));
     }
 
-    public TasksDto setTaskValidated(long id){
-       Tasks tasks = this.taskRepository.findById(id).orElseThrow(TaskNotFound::new);
+    public TasksDto setTaskValidated(long id) {
+        Tasks tasks = this.taskRepository.findById(id).orElseThrow(TaskNotFound::new);
         tasks.setValidated(true);
-      return tasksMapper.tasksToTasksDto(taskRepository.save(tasks));
+        return tasksMapper.tasksToTasksDto(taskRepository.save(tasks));
     }
 }

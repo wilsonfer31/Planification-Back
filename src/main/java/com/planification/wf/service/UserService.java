@@ -12,8 +12,6 @@ import com.planification.wf.security.JwtService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -63,6 +61,7 @@ public class UserService  {
         var user = repository.findByEmail(request.getEmail()).orElseThrow(EmailNotFoundException::new);
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponseDTO.builder()
+                .email(user.getEmail())
                 .token(jwtToken)
                 .build();
     }
