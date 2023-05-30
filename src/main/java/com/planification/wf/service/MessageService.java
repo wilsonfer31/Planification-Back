@@ -17,6 +17,7 @@ public class MessageService {
     private final MessageRepository messageRepository;
 
     public void saveMessage(Message message){
+
                 this.messageRepository.save(message);
     }
     public List<Message> getMessages(){
