@@ -1,12 +1,10 @@
 package com.planification.wf.mappers;
 
-import com.planification.wf.DTO.EventsAndTasksDTO;
-import com.planification.wf.DTO.EventsDTO;
-import com.planification.wf.entity.Events;
-
+import com.planification.wf.models.DTO.EventsAndTasksDTO;
+import com.planification.wf.models.DTO.EventsDTO;
+import com.planification.wf.models.entity.Events;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-
 
 import java.util.List;
 
@@ -22,18 +20,14 @@ public interface EventMapper {
     Events toEvents(EventsDTO eventsDTO);
 
 
-
     @Mapping(source = "tasksList", target = "tasks")
     EventsAndTasksDTO toEventsAndTasksDto(Events events);
 
-
     EventsDTO toEventsDto(Events events);
 
-   List<EventsAndTasksDTO> toListEventsAndTasksDto(List <Events> eventsList);
+    List<EventsAndTasksDTO> toListEventsAndTasksDto(List<Events> eventsList);
 
-    List<EventsDTO> toListEventsDto(List <Events> eventsList);
-
-
+    List<EventsDTO> toListEventsDto(List<Events> eventsList);
 
 
 }

@@ -22,17 +22,19 @@ import java.io.IOException;
 
 
 
+/**
+ * Il s'agit d'une classe Java qui implémente l'interface AuthenticationEntryPoint et envoie une réponse d'erreur 403
+ * lorsque l'authentification est refusée.
+ */
 @Component
 public class JWTAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public JWTAuthenticationEntryPoint( @Qualifier("handlerExceptionResolver") HandlerExceptionResolver resolver, MyExceptionHandler handler) {
         this.resolver = resolver;
     }
-
     private final HandlerExceptionResolver resolver;
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
         response.sendError(403, "Authentification  denied");
-     //   resolver.resolveException(request, response1, null, authException);
     }
 
 

@@ -1,0 +1,30 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDBDialect
+        generate_statistics: 'false'
+    hibernate:
+      ddl-auto: update
+    show-sql: 'true'
+  datasource:
+    password: admin
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: admin
+    url: jdbc:mariadb://host.docker.internal:3306/wfapplication?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+  sql:
+    init:
+      mode: ALWAYS
+  banner:
+    location: classpath:wfplanning.txt
+  application:
+    secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+  image:
+    url:  src/main/resources/images
+  discord:
+    webhook: https://discord.com/api/webhooks/1107607532970713099/klNV6FpK-_kjz46QdYt345bYha52qmUabSV1rNKqCdXCk_cW705wc5JNxmOx6xYj5E1R
+front:
+  url:
+    value: http://localhost:4200/
+server:
+  port: '8080'

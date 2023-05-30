@@ -1,8 +1,11 @@
 package com.planification.wf.interceptors;
 
-import com.planification.wf.DTO.ApiErrorDTO;
+import com.planification.wf.models.DTO.ApiErrorDTO;
+import com.planification.wf.models.enums.DiscordTypeMessage;
 import com.planification.wf.exceptions.*;
+import com.planification.wf.webhook.DiscordWebhookSender;
 import io.jsonwebtoken.MalformedJwtException;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,101 +18,74 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 
 @ControllerAdvice
+@AllArgsConstructor
 public class MyExceptionHandler extends ResponseEntityExceptionHandler {
 
+
+    private final DiscordWebhookSender webhookSender;
+
+
     @ExceptionHandler(value = {RuntimeException.class})
-    protected ResponseEntity<?> handleConflict(Exception ex, WebRequest request) {
-
-        ApiErrorDTO error = new ApiErrorDTO();
-        error.setErrorCode(500);
-        error.setMessage(ex.getMessage());
-        error.setPath(((ServletWebRequest) request).getRequest().getRequestURI());
-
-        return handleExceptionInternal(ex, error, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+    protected ResponseEntity<?> handleConflict(Exception ex, WebRequest request) throws Exception {
+        return handleExceptionInternal(ex,  getApiErrorDTO(ex, (ServletWebRequest) request , HttpStatus.INTERNAL_SERVER_ERROR.value()), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
 
     }
 
 
+
     @ExceptionHandler(value = {EmailNotFoundException.class})
-    protected ResponseEntity<?> emailException(Exception ex, WebRequest request) {
-
-        ApiErrorDTO error = new ApiErrorDTO();
-        error.setErrorCode(401);
-        error.setMessage(ex.getMessage());
-        error.setPath(((ServletWebRequest) request).getRequest().getRequestURI());
-
-        return handleExceptionInternal(ex, error, new HttpHeaders(),
-                HttpStatus.UNAUTHORIZED, request);
+    protected ResponseEntity<?> emailException(Exception ex, WebRequest request) throws Exception {
+        return handleExceptionInternal(ex,  getApiErrorDTO(ex, (ServletWebRequest) request , HttpStatus.FORBIDDEN.value()), new HttpHeaders(), HttpStatus.FORBIDDEN, request);
 
     }
 
 
     @ExceptionHandler(value = {EmailAlreadyExistsException.class})
-    protected ResponseEntity<?> emailAlreadyExists(Exception ex, WebRequest request) {
-
-        ApiErrorDTO error = new ApiErrorDTO();
-        error.setErrorCode(401);
-        error.setMessage(ex.getMessage());
-        error.setPath(((ServletWebRequest) request).getRequest().getRequestURI());
-
-        return handleExceptionInternal(ex, error, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    protected ResponseEntity<?> emailAlreadyExists(Exception ex, WebRequest request) throws Exception {
+        return handleExceptionInternal(ex,  getApiErrorDTO(ex, (ServletWebRequest) request , HttpStatus.FORBIDDEN.value()), new HttpHeaders(), HttpStatus.FORBIDDEN, request);
 
     }
 
     @ExceptionHandler(value = {EventAlreadyExists.class})
-    protected ResponseEntity<?> eventAlreadyExistsException(Exception ex, WebRequest request) {
+    protected ResponseEntity<?> eventAlreadyExistsException(Exception ex, WebRequest request) throws Exception {
+        return handleExceptionInternal(ex,  getApiErrorDTO(ex, (ServletWebRequest) request , HttpStatus.FORBIDDEN.value()), new HttpHeaders(), HttpStatus.FORBIDDEN, request);
 
-        ApiErrorDTO error = new ApiErrorDTO();
-        error.setErrorCode(401);
-        error.setMessage(ex.getMessage());
-        error.setPath(((ServletWebRequest) request).getRequest().getRequestURI());
-
-        return handleExceptionInternal(ex, error, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 
     }
 
-
     @ExceptionHandler(value = {EventNotFound.class})
-    protected ResponseEntity<?> EventNotFoundException(Exception ex, WebRequest request) {
-
-        ApiErrorDTO error = new ApiErrorDTO();
-        error.setErrorCode(401);
-        error.setMessage(ex.getMessage());
-        error.setPath(((ServletWebRequest) request).getRequest().getRequestURI());
-
-        return handleExceptionInternal(ex, error, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    protected ResponseEntity<?> EventNotFoundException(Exception ex, WebRequest request) throws Exception {
+        return handleExceptionInternal(ex,  getApiErrorDTO(ex, (ServletWebRequest) request , HttpStatus.FORBIDDEN.value()), new HttpHeaders(), HttpStatus.FORBIDDEN, request);
 
     }
 
     @ExceptionHandler(value = {UserNotFoundException.class})
-    protected ResponseEntity<?> UserNotFoundException(Exception ex, WebRequest request) {
-
-        ApiErrorDTO error = new ApiErrorDTO();
-        error.setErrorCode(401);
-        error.setMessage(ex.getMessage());
-        error.setPath(((ServletWebRequest) request).getRequest().getRequestURI());
-
-        return handleExceptionInternal(ex, error, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    protected ResponseEntity<?> UserNotFoundException(Exception ex, WebRequest request) throws Exception {
+        return handleExceptionInternal(ex,  getApiErrorDTO(ex, (ServletWebRequest) request , HttpStatus.FORBIDDEN.value()), new HttpHeaders(), HttpStatus.FORBIDDEN, request);
 
     }
 
     @ExceptionHandler({AuthenticationException.class})
-    public ResponseEntity<ApiErrorDTO> handleAuthenticationException(Exception ex) {
+    public ResponseEntity<?> handleAuthenticationException(Exception ex ,  WebRequest request) throws Exception {
+        return handleExceptionInternal(ex,  getApiErrorDTO(ex, (ServletWebRequest) request , HttpStatus.FORBIDDEN.value()), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
 
-        ApiErrorDTO error = new ApiErrorDTO();
-        error.setErrorCode(401);
-        error.setMessage(ex.getMessage());
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
 
     @ExceptionHandler({MalformedJwtException.class})
-    public ResponseEntity<ApiErrorDTO> malFormedException(MalformedJwtException ex) {
-
-        ApiErrorDTO error = new ApiErrorDTO();
-        error.setErrorCode(466);
-        error.setMessage(ex.getMessage());
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+    public ResponseEntity<?> malFormedException(MalformedJwtException ex ,  WebRequest request) throws Exception {
+        return handleExceptionInternal(ex,  getApiErrorDTO(ex, (ServletWebRequest) request , 401), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 
+
+    private ApiErrorDTO getApiErrorDTO(Exception ex, ServletWebRequest request , int errorCode) throws Exception {
+        var error = ApiErrorDTO.builder()
+            .errorCode(errorCode)
+            .message(ex.getMessage())
+            .path(request.getRequest().getRequestURI())
+            .build();
+        webhookSender.sendWebhook(error.toString(), DiscordTypeMessage.ERROR);
+        return error;
+
+    }
 
 }

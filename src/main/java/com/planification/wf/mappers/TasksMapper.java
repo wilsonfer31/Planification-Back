@@ -1,14 +1,14 @@
 package com.planification.wf.mappers;
 
-import com.planification.wf.DTO.TasksDto;
-import com.planification.wf.entity.Tasks;
-import org.mapstruct.*;
+import com.planification.wf.models.DTO.TasksDto;
+import com.planification.wf.models.entity.Tasks;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface TasksMapper {
-
 
 
     @Mapping(target = "events.id", source = "eventsId")
