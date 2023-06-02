@@ -20,11 +20,15 @@ spring:
   application:
     secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
   image:
-    url:  src/main/resources/images
+    url: src/main/resources/images
   discord:
     webhook: https://discord.com/api/webhooks/1107607532970713099/klNV6FpK-_kjz46QdYt345bYha52qmUabSV1rNKqCdXCk_cW705wc5JNxmOx6xYj5E1R
+  profile:
+    active: dev
+  server:
+    port: '8080'
 front:
   url:
     value: http://localhost:4200/
-server:
-  port: '8080'
+
+

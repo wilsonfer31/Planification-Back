@@ -73,7 +73,7 @@ public class MyExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({MalformedJwtException.class})
     public ResponseEntity<?> malFormedException(MalformedJwtException ex ,  WebRequest request) throws Exception {
-        return handleExceptionInternal(ex,  getApiErrorDTO(ex, (ServletWebRequest) request , 401), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+        return handleExceptionInternal(ex,  getApiErrorDTO(ex, (ServletWebRequest) request , HttpStatus.INTERNAL_SERVER_ERROR.value()), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 
 
@@ -83,7 +83,9 @@ public class MyExceptionHandler extends ResponseEntityExceptionHandler {
             .message(ex.getMessage())
             .path(request.getRequest().getRequestURI())
             .build();
-        webhookSender.sendWebhook(error.toString(), DiscordTypeMessage.ERROR);
+        if(errorCode != 403){
+            webhookSender.sendWebhook(error.toString(), DiscordTypeMessage.ERROR);
+        }
         return error;
 
     }
