@@ -23,8 +23,6 @@ spring:
     url: src/main/resources/images
   discord:
     webhook: https://discord.com/api/webhooks/1107607532970713099/klNV6FpK-_kjz46QdYt345bYha52qmUabSV1rNKqCdXCk_cW705wc5JNxmOx6xYj5E1R
-  profile:
-    active: dev
   server:
     port: '8080'
 front:

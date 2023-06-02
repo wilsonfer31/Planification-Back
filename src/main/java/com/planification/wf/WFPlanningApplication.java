@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
 
 import java.util.Arrays;
@@ -22,7 +21,9 @@ public class WFPlanningApplication {
 
     private final Environment env;
 
-    public WFPlanningApplication(Environment env) {this.env = env;}
+    public WFPlanningApplication(Environment env) {
+        this.env = env;
+    }
 
     @PostConstruct
     public void initApplication() {
@@ -55,6 +56,7 @@ public class WFPlanningApplication {
         logger.info("Connected to database: " + database);
 
     }
+
     public static void addDefaultProfile(SpringApplication app) {
         Map<String, Object> defProperties = new HashMap<>();
         defProperties.put(SPRING_PROFILE_DEFAULT, "dev");
