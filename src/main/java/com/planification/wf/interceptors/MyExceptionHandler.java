@@ -31,14 +31,11 @@ public class MyExceptionHandler extends ResponseEntityExceptionHandler {
 
     }
 
-
-
     @ExceptionHandler(value = {EmailNotFoundException.class})
     protected ResponseEntity<?> emailException(Exception ex, WebRequest request) throws Exception {
         return handleExceptionInternal(ex,  getApiErrorDTO(ex, (ServletWebRequest) request , HttpStatus.FORBIDDEN.value()), new HttpHeaders(), HttpStatus.FORBIDDEN, request);
 
     }
-
 
     @ExceptionHandler(value = {EmailAlreadyExistsException.class})
     protected ResponseEntity<?> emailAlreadyExists(Exception ex, WebRequest request) throws Exception {

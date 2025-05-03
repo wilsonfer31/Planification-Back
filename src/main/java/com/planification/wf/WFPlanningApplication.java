@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-@SpringBootApplication
+@SpringBootApplication()
 @EnableConfigurationProperties()
 public class WFPlanningApplication {
     private static final Logger logger = LoggerFactory.getLogger(WFPlanningApplication.class);
