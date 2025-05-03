@@ -57,15 +57,11 @@ public class DiscordWebhookSender {
 
         }
 
-
         Gson gson = new Gson();
         String jsonPayload = gson.toJson(payload);
-
         httpPost.setEntity(new StringEntity(jsonPayload, ContentType.APPLICATION_JSON));
         client.execute(httpPost);
-
         client.close();
     }
-
 }
 

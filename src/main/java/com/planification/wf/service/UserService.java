@@ -45,8 +45,6 @@ public class UserService {
 
     public AuthenticationResponseDTO register(RegisterRequestDTO request) throws Exception {
 
-
-
         Optional<User> u = userRepository.findByEmail(request.getEmail());
 
         if (u.isPresent()) {
@@ -98,5 +96,4 @@ public class UserService {
     public void updateUser(User user){
         userRepository.save(user);
     }
-
 }

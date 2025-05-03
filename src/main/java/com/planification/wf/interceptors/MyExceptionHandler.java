@@ -73,7 +73,6 @@ public class MyExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex,  getApiErrorDTO(ex, (ServletWebRequest) request , HttpStatus.INTERNAL_SERVER_ERROR.value()), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 
-
     private ApiErrorDTO getApiErrorDTO(Exception ex, ServletWebRequest request , int errorCode) throws Exception {
         var error = ApiErrorDTO.builder()
             .errorCode(errorCode)
@@ -84,7 +83,5 @@ public class MyExceptionHandler extends ResponseEntityExceptionHandler {
             webhookSender.sendWebhook(error.toString(), DiscordTypeMessage.ERROR);
         }
         return error;
-
     }
-
 }

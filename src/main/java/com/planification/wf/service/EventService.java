@@ -78,6 +78,4 @@ public class EventService {
         }
         return eventMapper.toEventsAndTasksDto(repository.save(eventValue));
     }
-
-
 }

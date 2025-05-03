@@ -67,5 +67,4 @@ public class ImageService {
             throw new RuntimeException("Error: " + e.getMessage());
         }
     }
-
 }

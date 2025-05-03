@@ -14,5 +14,4 @@ public interface EventRepository extends JpaRepository<Events, Long> {
     @Query("FROM Events e WHERE e.user.id =:id ")
     List<Events> getEventsByUserId(@Param("id") long id);
 
-
 }

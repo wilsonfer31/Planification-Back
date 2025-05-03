@@ -52,7 +52,4 @@ public class EventController {
         return ResponseEntity.status(HttpStatus.OK).body(service.deleteEvent(id));
 
     }
-
-
-
 }

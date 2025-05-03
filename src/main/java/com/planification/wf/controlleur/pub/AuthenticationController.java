@@ -32,7 +32,4 @@ public class AuthenticationController {
   ) throws Exception {
     return ResponseEntity.ok(service.authenticate(request));
   }
-
-
-
 }
